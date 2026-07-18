@@ -7,8 +7,11 @@ from langchain_classic.chains.combine_documents import create_stuff_documents_ch
 from app.ai.prompts.system_prompt import itinerary_prompt
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
+from app.schemas.trip_response import TripItinerary
 
 llm = get_llm()
+
+structured_llm=llm.with_structured_output(TripItinerary)
 
 vectorstore = get_vectorstore()
 
@@ -29,9 +32,8 @@ rag_chain=(
     }
     |prompt
     
-    |llm
+    |structured_llm
     
-    |StrOutputParser()
     )
 
 def invoke_chain(user_query:str)->str:
@@ -53,18 +55,6 @@ def invoke_chain(user_query:str)->str:
 
         
 
-# @app.post("/generate-itinerary/")
-# async def generate_trip_itinerary(request: ChatRequest):
-    # try:
-    #     # Run the single pipeline
-    #     response = rag_chain.invoke({"input": request.user_input})
-        
-    #     return {
-    #         "itinerary": response["answer"],
-    #         "sourced_spots": [doc.metadata.get("text_content") for doc in response["context"]]
-    #     }
-        
-    # except Exception as e:
-    #     raise HTTPException(status_code=500, detail=f"Itinerary generation failed: {str(e)}")
+
 
 
