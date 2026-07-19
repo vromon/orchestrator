@@ -4,4 +4,5 @@ class Settings(BaseSettings):
     PINECONE_API:str
     GEMINI_API:str
     TRIP_INDEX:str
+    DB_CONNECTION:str
 settings=Settings()
