@@ -2,7 +2,7 @@ import time
 from app.ai.vectorstore import get_vectorstore
 from app.ai.loader import get_csv_loader
 
-loader = get_csv_loader("./app/data/raw/tourism_dataset.csv", ["Country"])
+loader = get_csv_loader("./app/data/raw/Indian_Tour_dataset.csv", ["state"])
 docs = loader.load()
 
 total_docs = len(docs)
