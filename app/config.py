@@ -5,4 +5,6 @@ class Settings(BaseSettings):
     GEMINI_API:str
     TRIP_INDEX:str
     DB_CONNECTION:str
+    UPSTASH_REDIS_REST_URL:str
+    UPSTASH_REDIS_REST_TOKEN:str
 settings=Settings()
