@@ -2,13 +2,18 @@
 # from app.ai.chains.trip_chain import stream_chain
 # # def create_trip_plan(trip_request:TripSchema):
 # #     return invoke_chain(trip_request.user_query)
+from fastapi import  HTTPException, status
 from app.schemas.trip_schema import TripSchema
 from app.ai.chains.trip_chain import stream_chain
 from app.caching.client import get_redis_cient
+from supabase import create_client, Client
+from app.supabase.client import get_supabase_client
+from app.schemas.trip_schema import ItinerarySchema
 import json
 import time
 import asyncio
 import hashlib
+
 redis_client=get_redis_cient()
 async def stream_trip(trip_request: TripSchema):
     global g_uncached_time
@@ -48,9 +53,19 @@ async def stream_trip(trip_request: TripSchema):
     g_uncached_time=uncached_time
     print(f"Time spent at cache miss={uncached_time:.4f} seconds")
         
-    
 
-        
+supabase=get_supabase_client()
+def save_itinerary(payload:ItinerarySchema):
+    if not payload.itinerary:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="No trip itinerary found to be saved"
+        )
+
+    response=supabase.table("itinerary").insert({"itinerary":payload.itinerary}).execute()
+    return {"message":"Itinerary saved successfully",
+    "data":response.data
+}
 
 
 

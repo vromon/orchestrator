@@ -8,4 +8,6 @@ class Settings(BaseSettings):
     DB_CONNECTION:str
     UPSTASH_REDIS_REST_URL:str
     UPSTASH_REDIS_REST_TOKEN:str
+    SUPABASE_URL:str
+    SUPABASE_KEY:str
 settings=Settings()

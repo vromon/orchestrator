@@ -13,6 +13,8 @@ from fastapi.responses import StreamingResponse
 
 from app.schemas.trip_schema import TripSchema
 from app.services.trip_service import stream_trip
+from app.services.trip_service import save_itinerary
+from app.schemas.trip_schema import ItinerarySchema
 
 trip_router = APIRouter(prefix="/trip")
 
@@ -24,3 +26,6 @@ async def create_trip_plan(trip_request: TripSchema):
         stream_trip(trip_request),
         media_type="text/plain; charset=utf-8",
     )
+@trip_router.post("/save")
+async def save_itinerary_route(payload:ItinerarySchema):
+    return save_itinerary(payload)
