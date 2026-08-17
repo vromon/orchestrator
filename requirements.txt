@@ -13,3 +13,4 @@ langchain-pinecone
 google-generativeai
 pinecone
 requests
+upstash-redis
