@@ -14,3 +14,5 @@ google-generativeai
 pinecone
 requests
 upstash-redis
+pybreaker
+supabase
