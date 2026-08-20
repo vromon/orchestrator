@@ -27,6 +27,7 @@ async def stream_trip(trip_request: TripSchema):
     
     start_time=time.perf_counter()
     try:
+        cached=None
         cached = await circuit_breaker.call_async(redis_client.get,cache_key)
     except pybreaker.CircuitBreakerError:
         print("Circuit is Open!")
