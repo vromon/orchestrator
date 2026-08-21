@@ -1,5 +1,6 @@
 from app.supabase.client import get_supabase_client
 from fastapi import Response
+from app.utils.set_cookies import set_cookies
 supabase=get_supabase_client()
 def user_signup(user):
     email=user.email
@@ -20,27 +21,15 @@ def user_signup(user):
 def user_login(user,response:Response):
     email=user.email
     password=str(user.password)
+
     auth_response=supabase.auth.sign_in_with_password({
         "email":email,
         "password":password,
     })
     print(f"signin response:{auth_response}")
-    response.set_cookie(
-        key="access_token",
-        value=response.session.access_token,
-        httponly=True,
-        secure=False,
-        max_age=3600
 
-    )
-    response.set_cookie(
-        key="refresh_token",
-        value=response.session.refresh_token,
-        httponly=True,
-        secure=False,
-        max_age=30*24*3600
-
-    )
-    return response.user
+    set_cookies(response,auth_response.session.access_token,auth_response.session.refresh_token)
+    
+    return auth_response.user
     
 
