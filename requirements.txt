@@ -16,3 +16,4 @@ requests
 upstash-redis
 pybreaker
 supabase
+crawl4ai
